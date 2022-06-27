@@ -3,7 +3,7 @@
     <section>
       <base-card>
         <h2>{{ fullName }}</h2>
-        <h3>£{{ selectedCoach.hourlyRate }}/hour</h3>
+        <h3>${{ rate }}/hour</h3>
       </base-card>
     </section>
     <section>
@@ -18,12 +18,12 @@
     <section>
       <base-card>
         <base-badge
-          v-for="area in selectedCoach.areas"
+          v-for="area in areas"
           :key="area"
           :type="area"
           :title="area"
         ></base-badge>
-        <p>{{ selectedCoach.description }}</p>
+        <p>{{ description }}</p>
       </base-card>
     </section>
   </div>
@@ -39,10 +39,19 @@ export default {
   },
   computed: {
     fullName() {
-      return `${this.selectedCoach.firstName} ${this.selectedCoach.lastName}`;
+      return this.selectedCoach.firstName + ' ' + this.selectedCoach.lastName;
+    },
+    areas() {
+      return this.selectedCoach.areas;
+    },
+    rate() {
+      return this.selectedCoach.hourlyRate;
+    },
+    description() {
+      return this.selectedCoach.description;
     },
     contactLink() {
-      return `${this.$route.path}/${this.id}/contact`;
+      return this.$route.path + '/' + this.id + '/contact';
     },
   },
   created() {

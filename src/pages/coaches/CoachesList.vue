@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-dialog :show="!!error" title="An error occured" @close="handleError">
+    <base-dialog :show="!!error" title="An error occurred!" @close="handleError">
       <p>{{ error }}</p>
     </base-dialog>
     <section>
@@ -9,12 +9,8 @@
     <section>
       <base-card>
         <div class="controls">
-          <base-button mode="outline" @click="loadCoaches(true)"
-            >Refresh</base-button
-          >
-          <base-button link to="/register" v-if="!isCoach && !isLoading"
-            >Register</base-button
-          >
+          <base-button mode="outline" @click="loadCoaches(true)">Refresh</base-button>
+          <base-button v-if="!isCoach && !isLoading" link to="/register">Register as Coach</base-button>
         </div>
         <div v-if="isLoading">
           <base-spinner></base-spinner>
@@ -37,25 +33,29 @@
 </template>
 
 <script>
-import CoachFilter from '../../components/coaches/CoachFilter.vue';
 import CoachItem from '../../components/coaches/CoachItem.vue';
+import CoachFilter from '../../components/coaches/CoachFilter.vue';
+
 export default {
   components: {
-    CoachFilter,
     CoachItem,
+    CoachFilter,
   },
   data() {
     return {
+      isLoading: false,
+      error: null,
       activeFilters: {
         frontend: true,
         backend: true,
         career: true,
       },
-      isLoading: false,
-      error: null,
     };
   },
   computed: {
+    isCoach() {
+      return this.$store.getters['coaches/isCoach'];
+    },
     filteredCoaches() {
       const coaches = this.$store.getters['coaches/coaches'];
       return coaches.filter((coach) => {
@@ -68,13 +68,11 @@ export default {
         if (this.activeFilters.career && coach.areas.includes('career')) {
           return true;
         }
+        return false;
       });
     },
     hasCoaches() {
       return !this.isLoading && this.$store.getters['coaches/hasCoaches'];
-    },
-    isCoach() {
-      return this.$store.getters['coaches/isCoach'];
     },
   },
   created() {

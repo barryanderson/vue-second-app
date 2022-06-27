@@ -107,6 +107,7 @@ menu {
 .dialog-enter-active {
   transition: all 0.3s ease-out;
 }
+
 .dialog-leave-active {
   transition: all 0.3s ease-in;
 }
