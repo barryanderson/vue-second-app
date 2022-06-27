@@ -1,4 +1,7 @@
 <template>
+  <base-dialog :show="!!error" title="An error occured" @close="handleError">
+    <p>{{ error }}</p>
+  </base-dialog>
   <section>
     <coach-filter @change-filter="setFilters"></coach-filter>
   </section>
@@ -85,6 +88,9 @@ export default {
         this.error = error.message || 'Something went wrong!';
       }
       this.isLoading = false;
+    },
+    handleError() {
+      this.error = null;
     },
   },
 };
